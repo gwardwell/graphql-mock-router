@@ -1,8 +1,17 @@
 cors:
   allow_any_origin: true
+  expose_headers:
+    - logged-in
+    - identity
 supergraph:
   listen: 127.0.0.1:4000
   introspection: true
+  path: /*wildcard
+  # path: /graphql
+health_check:
+  listen: 127.0.0.1:4000
+  enabled: true
+  path: /.well-known/apollo/server-health
 sandbox:
   enabled: true
 homepage:
@@ -11,16 +20,51 @@ include_subgraph_errors:
   all: true # Propagate errors from all subraphs
 plugins:
   experimental.expose_query_plan: true
+# headers:
+#   all:
+#     response:
+#       -
 
 
-coprocessor:
-  url: http://127.0.0.1:3000
-  timeout: 10s
-  subgraph:
-    all:
-      request:
-        headers: true
-        context: true
-        uri: true
-        service_name: true
-        body: true
+# coprocessor:
+#   url: http://127.0.0.1:3000/mock
+#   timeout: 10s
+#   subgraph:
+#     all:
+#       request:
+#         headers: true
+#         context: true
+#         uri: true
+#         service_name: true
+#         body: true
+
+# coprocessor:
+#   url: http://127.0.0.1:3000/rename
+#   timeout: 10s
+#   supergraph:
+#     request:
+#       context: true
+#       headers: true
+#       method: true
+#     response:
+#       context: true
+#       headers: true
+#       # body: true
+#   subgraph:
+#     all:
+#       request:
+#         headers: true
+#         context: true
+#         service_name: true
+#         uri: true
+#         body: true
+#       # response:
+#       #   headers: true
+#       #   context: true
+#       #   service_name: true
+#       #   status_code: true
+#       #   body: true
+
+rhai:
+  scripts: "rhai"
+  main: "main.rhai"

@@ -35,6 +35,10 @@ import {
 } from 'zod';
 import { DefaultScalars, defaultScalars } from './defaultScalars';
 import { buildSubgraphSchema } from '@apollo/subgraph';
+import { SubgraphValidators } from '../types';
+import { Subgraphs } from '@apollo/federation-internals';
+
+const subgraphValidators: SubgraphValidators = new Map();
 
 export class SubgraphValidator {
   private ast: DocumentNode;
@@ -712,4 +716,26 @@ export class SubgraphValidator {
     });
     return defs;
   }
+}
+
+/**
+ * Creates a map of subgraph validators.
+ * @param subgraphs - The subgraphs that need validators.
+ * @return The subgraph validators
+ */
+export function createSubgraphValidators(
+  subgraphs: Subgraphs,
+): SubgraphValidators {
+  subgraphs.values().forEach(({ name, schema }) => {
+    subgraphValidators.set(name, new SubgraphValidator(schema.toAST()));
+  });
+  return subgraphValidators;
+}
+
+/**
+ * Get the map of registered subgraph validators.
+ * @returns The list of registered subgraph validators.
+ */
+export function getSubgraphValidators(): SubgraphValidators {
+  return subgraphValidators;
 }

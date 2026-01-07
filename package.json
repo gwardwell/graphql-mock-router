@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start:router": "APOLLO_GRAPH_REF=unified-schema ./router --config router.yaml --supergraph supergraph-schema.graphql",
+    "start:router": "./router --config router.yaml -s ./subgraph-schemas/supergraph.graphql",
     "start:coprocessor": "nodemon",
     "test": "jest --passWithNoTests --updateSnapshot --coverage"
   },
-  "author": "Greg Wardwell <gwardwell@wayfair.com>",
+  "author": "Greg Wardwell",
   "license": "ISC",
   "dependencies": {
     "@ai-sdk/google": "^0.0.9",

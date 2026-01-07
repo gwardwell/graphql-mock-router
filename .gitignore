@@ -130,3 +130,10 @@ router
 
 # Supergraph schema
 supergraph-schema.graphql
+
+# Generated subgraph schemas
+subgraph-schemas/*.graphql
+subgraph-schemas/supergraph.yaml
+
+# Manually created supergraph
+/supergraph/
